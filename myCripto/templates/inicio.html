@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block titulo%}Inicio{%  endblock %}
+
+{% block contenido %}
+    <section class="container" id="principal">
+        <h1>MOVIMIENTOS</h1>
+        <div class="lista de movimientos">
+            <table class="tabla-movimientos">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>From</th>
+                        <th>Q</th>
+                        <th>To</th>
+                        <th>Q</th>
+                        <th>P.U</th>
+                    </tr>
+                    <tbody></tbody>
+                </thead>
+            </table>
+        </div>
+    </section>
+
+    <div class="botones">
+        <a class="boton" href="/status">Status</a>
+        <a class="boton" href="/compra">+</a>
+    </div> 
+
+    
+
+{% endblock %}
