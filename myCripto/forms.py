@@ -6,10 +6,13 @@ from wtforms.validators import DataRequired, Length, ValidationError #clase
 from datetime import date
 
 class criptosForm(FlaskForm):
-
-    criptoF = SelectField("From", choices=['','EUR', 'ETH', 'LTC', 'BNB', 'EOS', 'XLM', 'TRX', 'BTC', 'XRP', 'BCH', 'USDT', 'BSV', 'ADA'])
+    
+    id = HiddenField()
+    criptoF = SelectField("criptoF", choices=['','EUR', 'ETH', 'LTC', 'BNB', 'EOS', 'XLM', 'TRX', 'BTC', 'XRP', 'BCH', 'USDT', 'BSV', 'ADA'])
     Qfrom = FloatField("Qfrom", validators = [DataRequired()])
-    criptoTo = SelectField("To", choices=['','EUR', 'ETH', 'LTC', 'BNB', 'EOS', 'XLM', 'TRX', 'BTC', 'XRP', 'BCH', 'USDT', 'BSV', 'ADA'])
+    criptoTo = SelectField("criptoTo", choices=['','EUR', 'ETH', 'LTC', 'BNB', 'EOS', 'XLM', 'TRX', 'BTC', 'XRP', 'BCH', 'USDT', 'BSV', 'ADA'])
     Qto = FloatField("Qto")
     PU = FloatField("P.U.")
+    submit = SubmitField("Filtrar")
+    
     

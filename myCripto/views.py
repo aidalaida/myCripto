@@ -1,5 +1,7 @@
+from flask_wtf import form
 from myCripto import app
 from flask import jsonify, render_template, request, redirect, url_for, flash
+from myCripto import forms
 from myCripto.forms import criptosForm
 import sqlite3
 
@@ -32,23 +34,28 @@ def inicio():
 
 @app.route('/purchase', methods=['GET', 'POST'])
 def comprar():
+    print("ha entrado")
     formulario = criptosForm()
     if request.method == 'GET':
+        print("ha entrado GET")
         return render_template('comprar.html', form = formulario)
     else:
+        print(formulario.Qto)
         if formulario.validate():
-            query = "INSERT INTO movimientos (From, To, Qfrom, Qto) VALUES (?, ?, ?)"
+            query = "INSERT INTO myCRYPTO (criptoF, Qfrom, criptoTo, Qto) VALUES (?, ?, ?, ?)"
+            print("fdgviufwabifbuoabo")
 
             conexion = sqlite3.connect("movimientosCripto.db")
             cur = conexion.cursor()
 
-            cur.execute(query)
+            cur.execute(query, [formulario.criptoF.data, formulario.Qfrom.data, formulario.criptoTo.data, formulario.Qto.data])
             conexion.commit()
             conexion.close()
 
+            return redirect(url_for("inicio"))
         else:
             return render_template('comprar.html', form = formulario)
-    
+
 @app.route('/', methods=['GET', 'POST'])    
 def calcular(Qfrom, From, To):
     url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY=d6a12093-2975-407e-8c90-8b73b5be116a"

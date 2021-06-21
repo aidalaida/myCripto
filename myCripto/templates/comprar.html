@@ -10,13 +10,13 @@
     <form action="/purchase" method="post">
         <div class ="wrapper">
             <div class = "one">
-                {{ form.From.label(class="mylabel") }}
-                {{ form.From(placeholder="") }}
+                {{ form.criptoF.label(class="mylabel") }}
+                {{ form.criptoF(placeholder="") }}
                 
             </div>
             <div class = "two">
-                {{ form.To.label(class="mylabel") }}
-                {{ form.To(placeholder="") }}
+                {{ form.criptoTo.label(class="mylabel") }}
+                {{ form.criptoTo(placeholder="") }}
             </div>
             <div class = "three">
                 {{ form.Qfrom.label(class="mylabel") }}
@@ -36,13 +36,11 @@
                     <a href="/inicio"></a>
                     <img src="../static/css/images/wrong.png" width="30">
                 </button>
-                <button type="submit">
+                <button type="submit" form="criptosForm">
                     <img src="../static/css/images/check.png" width="30">
                 </button>
-                
-                <button>
-                    <a href="/"></a>
-                </button>
+                {{ form.submit()}}
+               
             </div>          
         </div>
     </form>
