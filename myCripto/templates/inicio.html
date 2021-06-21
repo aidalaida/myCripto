@@ -16,8 +16,24 @@
                         <th>To</th>
                         <th>Q</th>
                         <th>P.U</th>
+                        <th></th>
                     </tr>
-                    <tbody></tbody>
+                    {% if datos %}
+                    {% for movimiento in datos %}
+                    <tr>
+                        <td>{{movimiento.fecha}}</td>
+                        <td>{{movimiento.hora}}</td>
+                        <td>{{movimiento.criptoF}}</td>
+                        <td>{{movimiento.Qfrom}}</td>
+                        <td>{{movimiento.criptoTo}}</td>
+                        <td>{{movimiento.Qto}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <p>No hay movimientos</p>
+                    </tr>
+                    {% endif %}
                 </thead>
             </table>
         </div>
@@ -25,7 +41,7 @@
 
     <div class="botones">
         <a class="boton" href="/status">Status</a>
-        <a class="boton" href="/compra">+</a>
+        <a class="boton" href="/purchase">+</a>
     </div> 
 
     

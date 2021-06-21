@@ -10,6 +10,7 @@ h1 {
     color: rgb(143, 8, 91);
 }
 
+
 footer{
     background-color: rgb(92, 11, 72);
     font-size: 15px;
@@ -49,3 +50,47 @@ footer{
     margin-left: 20px;
     margin-right: 20px;
   }
+
+
+.mylabel {
+    width: 80px;
+    display:inline-flex;
+    font-weight: bold;
+}
+
+.wrapper{
+    display: grid;
+    grid-template-columns: 2 1fr;
+    grid-column-gap: 250px;
+    
+}
+.one{
+    grid-column: 1 / 2;
+    grid-row: 1;
+}
+
+.two{
+    grid-column: 2 / 2;
+    grid-row: 1;
+}
+
+.three{
+    grid-column: 1 / 2;
+    grid-row: 2;
+}
+
+.four{
+    grid-column: 2 / 2;
+    grid-row: 2;
+}
+
+.five{
+    grid-column: 2 / 2;
+    grid-row: 3;
+}
+.six{
+    grid-column: 2 / 2;
+    grid-row: 4;
+    
+}
+

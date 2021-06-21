@@ -7,5 +7,43 @@
         <h1>COMPRA DE CRIPTOS</h1>
     </section>
         
+    <form action="/purchase" method="post">
+        <div class ="wrapper">
+            <div class = "one">
+                {{ form.From.label(class="mylabel") }}
+                {{ form.From(placeholder="") }}
+                
+            </div>
+            <div class = "two">
+                {{ form.To.label(class="mylabel") }}
+                {{ form.To(placeholder="") }}
+            </div>
+            <div class = "three">
+                {{ form.Qfrom.label(class="mylabel") }}
+                {{ form.Qfrom }}
+            </div>
+            <div class = "four">
+                {{ form.Qto.label(class="mylabel") }}
+                {{ form.Qto}}
+            </div>
+            <div class = "five">
+                {{ form.PU.label(class="mylabel") }}
+                {{ form.PU }}
+            </div>
 
+            <div class="six">
+                <button>
+                    <a href="/inicio"></a>
+                    <img src="../static/css/images/wrong.png" width="30">
+                </button>
+                <button type="submit">
+                    <img src="../static/css/images/check.png" width="30">
+                </button>
+                
+                <button>
+                    <a href="/"></a>
+                </button>
+            </div>          
+        </div>
+    </form>
 {% endblock %}
