@@ -3,15 +3,13 @@ from myCripto import app
 from flask import jsonify, render_template, request, redirect, url_for, flash
 from myCripto import forms
 from myCripto.forms import criptosForm
+from datetime import date
+from datetime import datetime
 import sqlite3
 
 
 @app.route('/')
 def index():
-   return render_template('inicio.html')
-
-@app.route('/inicio')
-def inicio():
     conexion = sqlite3.connect("movimientosCripto.db")
     cur = conexion.cursor()
 
@@ -29,7 +27,13 @@ def inicio():
 
     conexion.close()
 
+
     return render_template('inicio.html', datos = movimientos)
+
+@app.route('/inicio')
+def inicio():
+    pantallaInicio = index()
+    return pantallaInicio
 
 
 @app.route('/purchase', methods=['GET', 'POST'])
@@ -40,23 +44,24 @@ def comprar():
         print("ha entrado GET")
         return render_template('comprar.html', form = formulario)
     else:
-        print(formulario.Qto)
-        if formulario.validate():
-            query = "INSERT INTO myCRYPTO (criptoF, Qfrom, criptoTo, Qto) VALUES (?, ?, ?, ?)"
-            print("fdgviufwabifbuoabo")
+        
+        query = "INSERT INTO myCRYPTO (fecha, hora, criptoF, Qfrom, criptoTo, Qto) VALUES (?, ?, ?, ?, ?, ?)"
+        conexion = sqlite3.connect("movimientosCripto.db")
+        cur = conexion.cursor()
 
-            conexion = sqlite3.connect("movimientosCripto.db")
-            cur = conexion.cursor()
+        fecha = datetime.now().strftime('%Y-%m-%d')
+        hora = datetime.now().strftime('%H:%M:%S')
 
-            cur.execute(query, [formulario.criptoF.data, formulario.Qfrom.data, formulario.criptoTo.data, formulario.Qto.data])
-            conexion.commit()
-            conexion.close()
 
-            return redirect(url_for("inicio"))
-        else:
-            return render_template('comprar.html', form = formulario)
+        cur.execute(query, [fecha, hora, formulario.criptoF.data, formulario.Qfrom.data, formulario.criptoTo.data, formulario.Qto.data])
+        conexion.commit()
+        conexion.close()
 
-@app.route('/', methods=['GET', 'POST'])    
+        
+
+
+        return redirect(url_for("inicio"))
+       
 def calcular(Qfrom, From, To):
     url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY=d6a12093-2975-407e-8c90-8b73b5be116a"
 
