@@ -5,28 +5,16 @@ from myCripto import forms
 from myCripto.forms import criptosForm
 from datetime import date
 from datetime import datetime
-import sqlite3
+from myCripto.dataaccess import *
+import requests
 
+dbManager = DBmanager()
 
 @app.route('/')
 def index():
-    conexion = sqlite3.connect("movimientosCripto.db")
-    cur = conexion.cursor()
-
-    cur.execute("SELECT * From myCRYPTO;")
-    
-    claves = cur.description
-    filas = cur.fetchall()
-    
-    movimientos = []
-    for fila in filas:
-        d = {}
-        for tclave, valor in zip(claves, fila):
-            d[tclave[0]]= valor
-        movimientos.append(d)
-
-    conexion.close()
-
+    query = "SELECT * From myCRYPTO;"
+    parametros = []
+    movimientos = dbManager.consultaSQL(query, parametros)
 
     return render_template('inicio.html', datos = movimientos)
 
@@ -38,43 +26,52 @@ def inicio():
 
 @app.route('/purchase', methods=['GET', 'POST'])
 def comprar():
-    print("ha entrado")
+    
     formulario = criptosForm()
     if request.method == 'GET':
-        print("ha entrado GET")
         return render_template('comprar.html', form = formulario)
     else:
+        if formulario.validate:
+            query = "INSERT INTO myCRYPTO (fecha, hora, criptoF, Qfrom, criptoTo) VALUES (?, ?, ?, ?, ?)"
+            try:
+                fecha = datetime.now().strftime('%Y-%m-%d')
+                hora = datetime.now().strftime('%H:%M:%S')
+
+                dbManager.modificaTablaSQL(query, [fecha, hora, formulario.criptoF.data, formulario.Qfrom.data, formulario.criptoTo.data])
+                
         
-        query = "INSERT INTO myCRYPTO (fecha, hora, criptoF, Qfrom, criptoTo, Qto) VALUES (?, ?, ?, ?, ?, ?)"
-        conexion = sqlite3.connect("movimientosCripto.db")
-        cur = conexion.cursor()
+            except sqlite3.Error as el_error:
+                print("Error en SQL INSERT", el_error)
+                flash("Se ha producido un error en la base de datos. Pruebe en unos minutos", "error")
+                return render_template('inicio.html', form=formulario)
 
-        fecha = datetime.now().strftime('%Y-%m-%d')
-        hora = datetime.now().strftime('%H:%M:%S')
-
-
-        cur.execute(query, [fecha, hora, formulario.criptoF.data, formulario.Qfrom.data, formulario.criptoTo.data, formulario.Qto.data])
-        conexion.commit()
-        conexion.close()
-
-        
-
-
-        return redirect(url_for("inicio"))
+            return redirect(url_for("index"))
+        else:
+            return render_template('comprar.html', form = formulario)
        
-def calcular(Qfrom, From, To):
+
+
+
+def llamaApi(formulario):
+
+    print("llama apii")
+
+    criptoF = formulario.criptoF.data
+    Qfrom = formulario.Qfrom.data
+    criptoTo = formulario.criptoTo.data
+
     url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY=d6a12093-2975-407e-8c90-8b73b5be116a"
 
-    resultado = request.get(url.format(Qfrom, From, To))
+    resultado = request.get(url.format(Qfrom, criptoF, criptoTo))
     if resultado.status_code == 200:
-        Qto = resultado.json()
-        print()
+        critpoMonedas = resultado.json()
+        if critpoMonedas ['Response'] == "False":
+            return jsonify({'status': "Error", "msg": "No se han encontrado resultados"})
+        
+        print(critpoMonedas["data"])
+        return jsonify({"Qto": critpoMonedas["data"], 'status': "Succcess"})
 
-
-
-
-
-
+    
 
 @app.route('/status')
 def status():

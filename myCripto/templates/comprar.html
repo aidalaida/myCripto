@@ -12,35 +12,42 @@
             <div class = "one">
                 {{ form.criptoF.label(class="mylabel") }}
                 {{ form.criptoF(placeholder="") }}
+                {% for error in form.criptoF.errors %}
+                    <p class="msg-err">
+                        {{ error }}
+                    </p>
+                {% endfor %}
                 
             </div>
             <div class = "two">
                 {{ form.criptoTo.label(class="mylabel") }}
                 {{ form.criptoTo(placeholder="") }}
+                {% for error in form.criptoTo.errors %}
+                    <p class="msg-err">
+                        {{ error }}
+                    </p>
+                {% endfor %}
             </div>
             <div class = "three">
                 {{ form.Qfrom.label(class="mylabel") }}
                 {{ form.Qfrom }}
+                {% for error in form.Qfrom.errors %}
+                    <p class="msg-err">
+                        {{ error }}
+                    </p>
+                {% endfor %}
             </div>
             <div class = "four">
-                {{ form.Qto.label(class="mylabel") }}
-                {{ form.Qto}}
+                <p class="p1">Qto <input type="text"> </p>          
             </div>
-            <div class = "five">
-                
-            </div>
-
+        
             <div class="six">
-                <button>
-                    <a href="/inicio"></a>
-                    <img src="../static/css/images/wrong.png" width="30">
-                </button>
-                <button type="submit" form="criptosForm">
-                    <img src="../static/css/images/check.png" width="30">
-                </button>
+                
                 {{ form.submit()}}
                
-            </div>          
+            </div>
+            
+            
         </div>
     </form>
 {% endblock %}

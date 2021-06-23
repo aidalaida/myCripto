@@ -7,13 +7,16 @@ from datetime import date
 
 from wtforms.widgets.core import TextInput
 
+def funcion_de_errores(formulario, campo):
+    moneda = campo.data
+
 class criptosForm(FlaskForm):
     
     id = HiddenField()
-    criptoF = SelectField("criptoF", choices=['','EUR', 'ETH', 'LTC', 'BNB', 'EOS', 'XLM', 'TRX', 'BTC', 'XRP', 'BCH', 'USDT', 'BSV', 'ADA'])
+    criptoF = SelectField("criptoF", choices=['','EUR', 'ETH', 'LTC', 'BNB', 'EOS', 'XLM', 'TRX', 'BTC', 'XRP', 'BCH', 'USDT', 'BSV', 'ADA'], validators = [DataRequired()])
     Qfrom = FloatField("Qfrom", validators = [DataRequired()])
-    criptoTo = SelectField("criptoTo", choices=['','EUR', 'ETH', 'LTC', 'BNB', 'EOS', 'XLM', 'TRX', 'BTC', 'XRP', 'BCH', 'USDT', 'BSV', 'ADA'])
-    Qto = FloatField("Qto", validators = [DataRequired()])
+    criptoTo = SelectField("criptoTo", choices=['','EUR', 'ETH', 'LTC', 'BNB', 'EOS', 'XLM', 'TRX', 'BTC', 'XRP', 'BCH', 'USDT', 'BSV', 'ADA'], validators = [DataRequired()])
+    
     
     submit = SubmitField("Filtrar")
     
