@@ -38,15 +38,33 @@
                 {% endfor %}
             </div>
             <div class = "four">
-                <p class="p1">Qto <input type="text"> </p>          
+                {{ form.Qto.label(class="mylabel") }}
+                {{ {form.Qto.data }}
+                {% for error in form.Qto.errors %}
+                    <p class="msg-err">
+                        {{ error }}
+                    </p>
+                {% endfor %}                  
+            </div>
+            <div class = "five">
+                {{ form.PU.label(class="mylabel") }}
+                {{ form.PU.data }}
+                {% for error in form.PU.errors %}
+                    <p class="msg-err">
+                        {{ error }}
+                    </p>
+                {% endfor %}          
             </div>
         
             <div class="six">
-                
                 {{ form.submit()}}
-               
             </div>
-            
+            <div class="seven">
+                {{ form.calcular()}}
+            </div>
+            <div class="eigth">
+                {{ form.cancelar()}}
+            </div>
             
         </div>
     </form>

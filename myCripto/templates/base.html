@@ -11,7 +11,19 @@
 </head>
 <body>
 
-    <header>myCRYPTO</header>
+    <header>
+        myCRYPTO
+    </header>
+    {% with mensajes = get_flashed_messages(with_categories = true) %}
+        {% if mensajes %}
+        <div class="popup">
+            {% for tipo, mensaje in mensajes %}
+            <p class="{{tipo}}">{{ mensaje }}</p>
+            {% endfor %}
+        </div>
+        {% endif%}
+    {% endwith %}
+    
     <div class="navegacion">
         <p><a href="inicio">Inicio</a> / <a href="purchase">Comprar</a> / <a href="status">Status</a></p>
     </div>
