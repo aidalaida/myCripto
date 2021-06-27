@@ -8,64 +8,59 @@
     </section>
         
     <form action="/purchase" method="post">
-        <div class ="wrapper">
-            <div class = "one">
-                {{ form.criptoF.label(class="mylabel") }}
-                {{ form.criptoF(placeholder="") }}
-                {% for error in form.criptoF.errors %}
-                    <p class="msg-err">
-                        {{ error }}
-                    </p>
-                {% endfor %}
+        <fieldset class="container">
+            {{ form.hidden_tag() }}
+            <div class ="wrapper">
+                <div class = "one">
+                    {{ form.criptoF.label(class="mylabel") }}
+                    {{ form.criptoF(placeholder="") }}
+                    {% for error in form.criptoF.errors %}
+                        <p class="msg-err">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                    
+                </div>
+                <div class = "two">
+                    {{ form.criptoTo.label(class="mylabel") }}
+                    {{ form.criptoTo(placeholder="") }}
+                    {% for error in form.criptoTo.errors %}
+                        <p class="msg-err">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+                <div class = "three">
+                    {{ form.Qfrom.label(class="mylabel") }}
+                    {{ form.Qfrom }}
+                    {% for error in form.Qfrom.errors %}
+                        <p class="msg-err">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+                <div class = "four">
+                    <label for="Qto">Qto</label>
+                    <input disabled type="number" name="Qto" value="{{ Qto }}" >
+                       
+                </div>
+                <div class = "five">
+                    <label for="PU">PU</label>
+                    <input disabled type="number" name="PU" value="{{ PU }}" >
+                    
+                </div>
+
+                <div class="six">
+                    {{ form.submit()}}
+                </div>
+                <div class="seven">
+                    {{ form.calcular()}}
+                </div>
+                <div class="eigth">
+                    {{ form.cancelar()}}
+                </div>
                 
             </div>
-            <div class = "two">
-                {{ form.criptoTo.label(class="mylabel") }}
-                {{ form.criptoTo(placeholder="") }}
-                {% for error in form.criptoTo.errors %}
-                    <p class="msg-err">
-                        {{ error }}
-                    </p>
-                {% endfor %}
-            </div>
-            <div class = "three">
-                {{ form.Qfrom.label(class="mylabel") }}
-                {{ form.Qfrom }}
-                {% for error in form.Qfrom.errors %}
-                    <p class="msg-err">
-                        {{ error }}
-                    </p>
-                {% endfor %}
-            </div>
-            <div class = "four">
-                {{ form.Qto.label(class="mylabel") }}
-                {{ {form.Qto.data }}
-                {% for error in form.Qto.errors %}
-                    <p class="msg-err">
-                        {{ error }}
-                    </p>
-                {% endfor %}                  
-            </div>
-            <div class = "five">
-                {{ form.PU.label(class="mylabel") }}
-                {{ form.PU.data }}
-                {% for error in form.PU.errors %}
-                    <p class="msg-err">
-                        {{ error }}
-                    </p>
-                {% endfor %}          
-            </div>
-        
-            <div class="six">
-                {{ form.submit()}}
-            </div>
-            <div class="seven">
-                {{ form.calcular()}}
-            </div>
-            <div class="eigth">
-                {{ form.cancelar()}}
-            </div>
-            
-        </div>
+        </fieldset>    
     </form>
 {% endblock %}
