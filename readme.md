@@ -6,7 +6,7 @@
 1. Crear entorno virtual en python, a través de la terminal utilizando el siguiente comando:  
     python -m venv (venv es el nombre del entrno virtual que activaremos)
     Para activarlo en Windows: venv\Scripts\activate
-2. Consultar el documento requirements.txt, donde encontramos todas las librerias utilizadas y nos tendremos que bajar todas ellas. 
+2. pip install requirements.txt, donde encontramos todas las librerias utilizadas y nos tendremos que bajar todas ellas. 
 
 #### Instrucciones para lanzar la web: 
 1. Con el entorno virtual activado

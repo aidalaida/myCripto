@@ -40,14 +40,13 @@
                     {% endfor %}
                 </div>
                 <div class = "four">
-                    <label for="Qto">Qto</label>
-                    <input disabled type="number" name="Qto" value="{{ Qto }}" >
-                       
+                    {{ form.Qto.label}}
+                    {{ form.Qto(readonly=True, value=cantidadTo) }}
+                                          
                 </div>
                 <div class = "five">
-                    <label for="PU">PU</label>
-                    <input disabled type="number" name="PU" value="{{ PU }}" >
-                    
+                    {{ form.PU.label}}
+                    {{ form.PU(readonly=True, value=pu)}}
                 </div>
 
                 <div class="six">
