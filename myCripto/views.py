@@ -29,6 +29,17 @@ def calcular_saldo(cripto):
 
     return saldo
 
+def eurosInvertidos(cripto): 
+    saldo = 0
+    query = "SELECT * From myCRYPTO WHERE criptoF=?;"
+    parametros = [cripto]
+    movimientosCompras = dbManager.consultaSQL(query, parametros)
+    
+    for movimiento in movimientosCompras:
+        saldo += movimiento['Qfrom']
+    
+    return saldo
+
 
 @app.route('/')
 def index():
@@ -91,7 +102,7 @@ def comprar():
                     flash ("No se puede utilizar la misma moneda")
                     return render_template('comprar.html', form = formulario)
                 elif type(Qfrom) is not float:
-                    flash ("La cantidad introducida debe ser un número")
+                    flash ("La cantidad introducida debe ser un número. Recuerda que los decimales hay que escribirlos con punto")
                     return render_template('comprar.html', form = formulario)
                 
                 elif Qfrom < 0:
@@ -176,9 +187,48 @@ def comprar():
       
                
             
-
-
 @app.route('/status')
 def status():
-    return render_template('status.html')
+    inversion = eurosInvertidos('EUR')
+    saldoTotal = 0
+    
+    diccMonedas = {
+        'EUR':0, 
+        'ETH':0,
+        'LTC':0,
+        'BNB':0,
+        'EOS':0,
+        'XLM':0,
+        'TRX': 0, 
+        'BTC': 0,
+        'XRP': 0,
+        'BCH':0,
+        'USDT':0,
+        'BSV':0,
+        'ADA':0
+    }
+
+    for clave in diccMonedas:
+        diccMonedas[clave] = calcular_saldo(clave)
+
+    for key, value in diccMonedas.items():    
+        if key != 'EUR' and value != 0:
+
+            cantidad = value
+            clave = key
+        
+            url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY=d6a12093-2975-407e-8c90-8b73b5be116a"
+
+            resultado = requests.get(url.format(cantidad, clave, 'EUR'))
+            if resultado.status_code == 200:
+                            
+                criptoMonedas = resultado.json() 
+                saldoCripto = criptoMonedas["data"]["quote"]['EUR']["price"]
+                saldoTotal += saldoCripto
+    
+    saldoEuros = calcular_saldo('EUR')
+
+    valorActual = saldoTotal + saldoEuros + inversion 
+   
+    return render_template('status.html', inversion=inversion, valorActual=valorActual)
 

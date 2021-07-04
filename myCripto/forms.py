@@ -20,6 +20,6 @@ class criptosForm(FlaskForm):
     PU = FloatField("Precio unitario")
     calcular = SubmitField("Calcular")
     submit = SubmitField("Aceptar")
-    cancelar = SubmitField("Cancelar")
+    
     
     

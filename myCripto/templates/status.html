@@ -5,7 +5,25 @@
 {% block contenido %}
     <section class="container" id="principal">
         <h1>ESTADO DE LA INVERSIÓN</h1>
-    </section>
+        <section class="inversion">
+            <div >
+                <label for="invertido">Invertido</label>
+                <input  disabled type="text" name="invertido" value={{inversion}}€>
+            </div>
         
+            <div >
+                <label for="valor actual">Valor Actual</label>
+                <input  disabled type="text" name="valor actual" value={{valorActual|round(8)}}€>
+            </div>
+        
+            <div class="botones">
+                <a class="boton" href="/inicio">Volver</a>
+            </div> 
+            
+        </section>
+
+    </section>
+    
+
 
 {% endblock %}
