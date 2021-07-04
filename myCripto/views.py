@@ -10,9 +10,9 @@ from datetime import datetime
 from myCripto.dataaccess import *
 import requests
 import json
-from myCripto.saldos import *
-from myCripto.consultaAPI import *
-from myCripto.validaciones import *
+from myCripto.balances import *
+from myCripto.apiRequest import *
+from myCripto.validations import *
 
 dbManager = DBmanager()
 
