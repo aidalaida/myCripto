@@ -30,14 +30,19 @@
                         </p>
                     {% endfor %}
                 </div>
-                <div class = "three">
-                    {{ form.Qfrom.label(class="mylabel") }}
-                    {{ form.Qfrom }}
-                    {% for error in form.Qfrom.errors %}
-                        <p class="msg-err">
-                            {{ error }}
-                        </p>
-                    {% endfor %}
+                <div class="Calcular">
+                    <div class = "three">
+                        {{ form.Qfrom.label(class="mylabel") }}
+                        {{ form.Qfrom }}
+                        {% for error in form.Qfrom.errors %}
+                            <p class="msg-err">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                    <div class="seven" type='button'>
+                        {{ form.calcular()}}
+                    </div>
                 </div>
                 <div class = "four">
                     {{ form.Qto.label}}
@@ -47,19 +52,18 @@
                 <div class = "five">
                     {{ form.PU.label}}
                     {{ form.PU(readonly=True, value=pu)}}
-                </div>
-
-                <div class="six">
-                    {{ form.submit()}}
-                </div>
-                <div class="seven">
-                    {{ form.calcular()}}
-                </div>
-                <div class="eigth">
-                    <a class="boton" href="/inicio">Cancelar</a>
-                </div>
+                </div> 
+                <div class="contenedor">
+                    <div class="six">
+                        {{ form.submit()}}
+                        <a class="botonCanc" href="/inicio">Cancelar</a>
+                    </div>
+                </div> 
                 
             </div>
+            
+            
+            
         </fieldset>    
     </form>
 {% endblock %}
