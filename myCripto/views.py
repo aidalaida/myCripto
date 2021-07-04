@@ -12,6 +12,24 @@ import json
 
 dbManager = DBmanager()
 
+def calcular_saldo(cripto):
+    saldo = 0
+    query = "SELECT * From myCRYPTO WHERE criptoTo=?;"
+    parametros = [cripto]
+    movimientosCompras = dbManager.consultaSQL(query, parametros)
+
+    query = "SELECT * From myCRYPTO WHERE criptoF=?;"
+    parametros = [cripto]
+    movimientosVentas = dbManager.consultaSQL(query, parametros)
+
+    for movimiento in movimientosCompras:
+        saldo += movimiento['Qto']
+    for movimiento in movimientosVentas:
+        saldo -= movimiento['Qfrom']
+
+    return saldo
+
+
 @app.route('/')
 def index():
     query = "SELECT * From myCRYPTO;"
@@ -60,41 +78,99 @@ def comprar():
             Qfrom = formulario.Qfrom.data
             criptoTo = formulario.criptoTo.data
 
-            if criptoF == criptoTo:
-                flash ("No se puede utilizar la misma moneda")
-                return render_template('comprar.html', form = formulario)
-            elif type(Qfrom) is not float:
-                flash ("La cantidad introducida debe ser un número")
-                return render_template('comprar.html', form = formulario)
-            
-            elif Qfrom < 0:
-                flash ("La cantidad introducida no puede ser un número negativo")
-                return render_template('comprar.html', form = formulario)
-            
-            else:
-            
-                url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY=d6a12093-2975-407e-8c90-8b73b5be116a"
+            query = "SELECT * From myCRYPTO;"
+            parametros = []
+            movimientos = dbManager.consultaSQL(query, parametros)
 
-                resultado = requests.get(url.format(Qfrom, criptoF, criptoTo))
-                if resultado.status_code == 200:
-                
-                    criptoMonedas = resultado.json()
-                        
-                    if criptoMonedas ["status"]["error_code"] != 0:
-                        flash("Error en la API: " + criptoMonedas["status"]["error_message"])
-                        return render_template('comprar.html', form = formulario)
-                    
-                    
-                    cantidadTo = criptoMonedas["data"]["quote"][criptoTo]["price"]
-                    formulario.Qto.data = cantidadTo
-                    pu = Qfrom / formulario.Qto.data
-                    formulario.PU.data = pu
-                    
-                    return render_template('comprar.html', form = formulario, cantidadTo = cantidadTo, pu=pu)
-
-                else:
-                    flash("Error en el acceso a la API, intentarlo de nuevo más tarde")
+            if not movimientos or criptoF == 'EUR':
+                if criptoF != 'EUR':
+                    flash ("En la primera compra solo se pueden utilizar Euros")
                     return render_template('comprar.html', form = formulario)
+                            
+                elif criptoF == criptoTo:
+                    flash ("No se puede utilizar la misma moneda")
+                    return render_template('comprar.html', form = formulario)
+                elif type(Qfrom) is not float:
+                    flash ("La cantidad introducida debe ser un número")
+                    return render_template('comprar.html', form = formulario)
+                
+                elif Qfrom < 0:
+                    flash ("La cantidad introducida no puede ser un número negativo")
+                    return render_template('comprar.html', form = formulario)
+                
+                else:
+                
+                    url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY=d6a12093-2975-407e-8c90-8b73b5be116a"
+
+                    resultado = requests.get(url.format(Qfrom, criptoF, criptoTo))
+                    if resultado.status_code == 200:
+                    
+                        criptoMonedas = resultado.json()
+                            
+                        if criptoMonedas ["status"]["error_code"] != 0:
+                            flash("Error en la API: " + criptoMonedas["status"]["error_message"])
+                            return render_template('comprar.html', form = formulario)
+                        
+                        
+                        cantidadTo = criptoMonedas["data"]["quote"][criptoTo]["price"]
+                        formulario.Qto.data = cantidadTo
+                        pu = Qfrom / formulario.Qto.data
+                        formulario.PU.data = pu
+                        
+                        return render_template('comprar.html', form = formulario, cantidadTo = cantidadTo, pu=pu)
+
+                    else:
+                        flash("Error en el acceso a la API, intentarlo de nuevo más tarde")
+                        return render_template('comprar.html', form = formulario)
+            else:
+                query = "SELECT * From myCRYPTO WHERE criptoTo=?;"
+                parametros = [criptoF]
+                movimientos = dbManager.consultaSQL(query, parametros)
+
+                if criptoF == criptoTo:
+                    flash ("No se puede utilizar la misma moneda")
+                    return render_template('comprar.html', form = formulario)
+                elif not movimientos:
+                    flash ("No tienes {}". format(criptoF))
+                    return render_template('comprar.html', form = formulario)
+
+                elif calcular_saldo(criptoF) < float(Qfrom):
+                    flash ("No tienes suficientes {}". format(criptoF))
+                    return render_template('comprar.html', form = formulario)
+
+                elif type(Qfrom) is not float:
+                    flash ("La cantidad introducida debe ser un número")
+                    return render_template('comprar.html', form = formulario)
+                
+                elif Qfrom < 0:
+                    flash ("La cantidad introducida no puede ser un número negativo")
+                    return render_template('comprar.html', form = formulario)
+                
+                else:
+                
+                    url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY=d6a12093-2975-407e-8c90-8b73b5be116a"
+
+                    resultado = requests.get(url.format(Qfrom, criptoF, criptoTo))
+                    if resultado.status_code == 200:
+                    
+                        criptoMonedas = resultado.json()
+                            
+                        if criptoMonedas ["status"]["error_code"] != 0:
+                            flash("Error en la API: " + criptoMonedas["status"]["error_message"])
+                            return render_template('comprar.html', form = formulario)
+                        
+                        
+                        cantidadTo = criptoMonedas["data"]["quote"][criptoTo]["price"]
+                        formulario.Qto.data = cantidadTo
+                        pu = Qfrom / formulario.Qto.data
+                        formulario.PU.data = pu
+                        
+                        return render_template('comprar.html', form = formulario, cantidadTo = cantidadTo, pu=pu)
+
+                    else:
+                        flash("Error en el acceso a la API, intentarlo de nuevo más tarde")
+                        return render_template('comprar.html', form = formulario)
+
         else:
             return render_template('inicio.html')
       
