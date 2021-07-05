@@ -23,18 +23,18 @@
     - Se puede hacer con un cliente gráfico o con sqlite3
     - Ejecutar lo siguiente
 
-    sqlite3 (ruta al fichero de datos puesto en config.py)
-    .read (ruta relativa a migration/initial.sql3)
-    .tables
-    .q
+        + sqlite3 (ruta al fichero de datos puesto en config.py)
+        + .read (ruta relativa a migration/initial.sql3)
+        + .tables
+        + .q
 
 5. Opcional: Creación de un entorno virtual:
     - Windows:
-        python -m venv (nombre del entorno virtual)
-        (nombre del entorno virtual)\Scripts\activate
+        - python -m venv (nombre del entorno virtual)
+        - (nombre del entorno virtual)\Scripts\activate
     - Mac, linux:
-        python -m venv (nombre del entorno virtual)
-        . venv/bin/activate
+        - python -m venv (nombre del entorno virtual)
+        - . venv/bin/activate
 
 #### Ejecutar en local:
 Escribir:
