@@ -103,7 +103,7 @@ def comprar():
                     return render_template('comprar.html', form = formulario)
                 
                 else:
-                    cantidadTo = consultaAPIFormulario(Qfrom, criptoF, criptoTo)
+                    cantidadTo = consultaAPIFormulario(Qfrom, criptoF, criptoTo, formulario)
                     formulario.Qto.data = cantidadTo
                     pu = Qfrom / formulario.Qto.data
                     formulario.PU.data = pu
