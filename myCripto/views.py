@@ -3,7 +3,6 @@ from flask_wtf import form
 from myCripto import app
 from flask import jsonify, render_template, request, redirect, url_for, flash
 from myCripto import forms
-import myCripto
 from myCripto.forms import criptosForm
 from datetime import date
 from datetime import datetime
@@ -14,7 +13,8 @@ from myCripto.balances import *
 from myCripto.apiRequest import *
 from myCripto.validations import *
 
-dbManager = DBmanager()
+
+dbManager = DBmanager(app.config.get('DATABASE'))
 
 @app.route('/')
 def index():

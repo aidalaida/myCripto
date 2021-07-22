@@ -1,5 +1,5 @@
 from myCripto.dataaccess import *
-dbManager = DBmanager()
+dbManager = DBmanager(app.config.get('DATABASE'))
 
 def calcular_saldo(cripto):
     saldo = 0

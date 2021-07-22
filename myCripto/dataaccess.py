@@ -1,6 +1,12 @@
 import sqlite3
+from myCripto import app
+
 
 class DBmanager():
+
+    def __init__(self, ruta_base_datos):
+        self.db_path = ruta_base_datos
+
 
     def __toDict__(self, cur):
         claves = cur.description
@@ -17,7 +23,7 @@ class DBmanager():
         return movimientos
 
     def consultaSQL(self, query, parametros=[]):
-        conexion = sqlite3.connect("movimientosCripto.db")
+        conexion = sqlite3.connect(self.db_path)
         cur = conexion.cursor()
 
         cur.execute(query, parametros)
@@ -26,7 +32,7 @@ class DBmanager():
         return movimientos
 
     def modificaTablaSQL(self, query, parametros=[]):
-        conexion = sqlite3.connect("movimientosCripto.db")
+        conexion = sqlite3.connect(self.db_path)
         cur = conexion.cursor()
 
         cur.execute(query, parametros)

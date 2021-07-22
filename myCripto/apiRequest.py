@@ -1,10 +1,13 @@
 import requests
+from myCripto import app
 from flask import jsonify, render_template, request, redirect, url_for, flash
 
-def consultaAPIFormulario(Qfrom, criptoF, criptoTo, formulario):
-    url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY=d6a12093-2975-407e-8c90-8b73b5be116a"
+api_key = app.config.get('API_KEY')
 
-    resultado = requests.get(url.format(Qfrom, criptoF, criptoTo))
+def consultaAPIFormulario(Qfrom, criptoF, criptoTo, formulario):
+    url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY={}"
+
+    resultado = requests.get(url.format(Qfrom, criptoF, criptoTo, api_key))
     if resultado.status_code == 200:
         criptoMonedas = resultado.json()
                             
@@ -18,9 +21,9 @@ def consultaAPIFormulario(Qfrom, criptoF, criptoTo, formulario):
     
 
 def consultaAPIstatus(cantidad, clave, moneda):
-    url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY=d6a12093-2975-407e-8c90-8b73b5be116a"
+    url = "https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount={}&symbol={}&convert={}&CMC_PRO_API_KEY={}"
 
-    resultado = requests.get(url.format(cantidad, clave, 'EUR'))
+    resultado = requests.get(url.format(cantidad, clave, 'EUR', api_key))
     if resultado.status_code == 200:
                             
         criptoMonedas = resultado.json()
