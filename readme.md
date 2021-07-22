@@ -24,7 +24,7 @@
     - Ejecutar lo siguiente
 
         + sqlite3 (ruta al fichero de datos puesto en config.py)
-        + .read (ruta relativa a migration/initial.sql3)
+        + .read (ruta relativa a migrations/initial.sql)
         + .tables
         + .q
 
